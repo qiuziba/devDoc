@@ -38,9 +38,9 @@ git checkout .
 8、切换到分支：
 git branch main 或者 git checkout main
 9、将远程文档库取回当前所在分支的最新数据：
-git push
+git pull
 如果一次性取回全部分支最新的数据：
-git push --all
+git pull --all
 
 ========================git 常用命令的解释===============================================
 
