@@ -1,0 +1,147 @@
+#UBUNTU 安装mysql数据库 mysql-8
+
+https://dev.mysql.com/downloads/mysql/
+https://dev.mysql.com/downloads/repo/apt/ 下载 
+mysql-apt-config_0.8.18-1_all.deb
+输入命令sudo dpkg -i mysql-apt-config_0.8.18-1_all.deb   选择 OK
+sudo apt-get update
+sudo apt-get install mysql-server 录入ROOT密码 【选择加密方式是建议选择第二项：MYSQL 5.x】
+#登录,验证 
+mysql -u root -p
+
+#CENTOS 安装mysql数据库 mysql-8
+
+ yum install -y libaio
+ 
+ tar -xvf mysql-8.0.25-1.el8.x86_64.rpm-bundle.tar
+ 
+ rpm -ivh mysql-community-common-8.0.25-1.el8.x86_64.rpm --nodeps --force
+ 
+ rpm -ivh mysql-community-libs-8.0.25-1.el8.x86_64.rpm --nodeps --force
+ 
+ rpm -ivh mysql-community-client-8.0.25-1.el8.x86_64.rpm --nodeps --force
+ 
+ rpm -ivh mysql-community-server-8.0.25-1.el8.x86_64.rpm --nodeps --force 
+ 
+#数据库初始化
+ 
+ mysqld --initialize --basedir=/mysql --datadir=/mysql/data
+ 
+ chown mysql:mysql /var/lib/mysql -R
+ 
+ systemctl start mysqld.service 
+ 
+ systemctl enable mysqld
+ 
+ cat /var/log/mysqld.log
+ 
+ cat /var/log/mysqld.log | grep password
+
+#登录
+ 
+ mysql -u root -p 
+
+#修改密码 
+ set global validate_password.policy=0;
+ 
+ set global validate_password.length=1;
+ 
+ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
+ 
+ FLUSH PRIVILEGES; 
+ 
+# 修改加密规则 （这行我没有写，不过貌似也可以）
+# https://blog.csdn.net/seventopalsy/article/details/80195246
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' PASSWORD EXPIRE NEVER;
+#更新一下用户的密码 
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
+#刷新权限
+FLUSH PRIVILEGES; 
+
+##链接异常
+navicat 连接 mysql 出现Client does not support authentication protocol requested by server解决方案:
+alter user'root'@'localhost' identified with mysql_native_password by '123456';
+flush privileges;
+ 
+#查看所有的数据库
+show databases;
+
+#查看mysql数据库的运行状态
+status 
+
+#查看数据库中的所有表
+show tables;
+
+#查看表结构
+desc  table_name;     如：desc SAOSS_T_AT_NUTUAL;
+
+#建立数据库
+CREATE DATABASE btkdb DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE DATABASE bpool_local_stats_db DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE bpool_local_db DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+#使用数据库
+ use btkdb;
+
+#删除数据库
+ drop databases btkdb;
+
+# 修改表属性
+alter table SAOSS_T_AT_NUTUAL modify RECEIVE_AT_CODE varchar(32) null;  
+
+#导入数据
+#第一种方法
+use btkdb
+source -D btkdb<E:\Download\Dex\btkdb201810100330\btkdb201810100330.sql
+
+#centos
+  source /mydoc/sqldata/btkdb1.sql;
+
+#第二种方法，centos后台导入
+nohup mysql –uroot –p123456 -D/mydoc/sqldata/btkdb1.sql >> /mydoc/sqldata/btkdb1.log 2>&1 & 
+
+
+SELECT CONCAT('DROP TABLE ', table_name,';') FROM information_schema.`TABLES` WHERE table_schema='btkdb'; 
+
+drop table table_name;
+
+#CENTOS 远程登录
+use mysql;
+update user set host='%' where user='root';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+FLUSH PRIVILEGES; 
+
+#解决localhost能登录，127.0.0.1不能登录的问题
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+drop user root@'localhost';
+
+#用navicat连接看是否可以远程登陆，默认端口为3306，如果不能，则查看防火墙是否开启了该端口。
+
+查看防火墙开放端口：iptables-save ,如果没开，则执行以下命令：
+
+添加端口：firewall-cmd --zone=public --add-port=3306/tcp --permanent
+
+重载防火墙：firewall-cmd --reload
+
+
+#宝塔面板
+Bt-Panel: http://47.243.140.232:8888
+username: 1ojbsz6x
+password: c0e5881d
+
+##卸载MySQL8.0,首先在终端中查看MySQL的依赖项：
+dpkg --list|grep mysql
+##卸载
+sudo apt-get remove mysql-common
+sudo apt-get autoremove --purge mysql-server-8.0
+##清除残留数据：
+dpkg -l|grep ^rc|awk ‘{print$2}’|sudo xargs dpkg -P
+##查看剩余依赖
+dpkg --list|grep mysql
+##继续删除剩余依赖项，
+sudo apt-get autoremove --purge mysql-apt-config
+
+
+
