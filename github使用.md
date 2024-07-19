@@ -1,3 +1,5 @@
+https://github.com/qiuziba/devDoc
+
 1、登录 https://github.com/
 2、建立建立项目 repository，如：devDoc
 3、把 github.com 的 devDoc 项目克隆到本地：
