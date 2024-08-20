@@ -1,12 +1,18 @@
 https://github.com/qiuziba/devDoc
 
-1、登录 https://github.com/
-2、建立建立项目 repository，如：devDoc
-3、把 github.com 的 devDoc 项目克隆到本地：
+## 1、登录 https://github.com/
+
+## 2、建立建立项目 repository，如：devDoc
+
+## 3、把 github.com 的 devDoc 项目克隆到本地：
+
 git clone https://github.com/qiuziba/devDoc.git
-4、git init
-5、在本地新增文档：如 github 使用.md
-6、提交到远程https://github.com/qiuziba/devDoc.git库中：
+
+## 4、git init
+
+## 5、在本地新增文档：如 github 使用.md
+
+## 6、提交到远程https://github.com/qiuziba/devDoc.git库中：
 
 …or create a new repository on the command line
 
@@ -29,20 +35,28 @@ git remote add origin https://github.com/qiuziba/devDoc.git
 git branch -M main
 git push -u origin main
 
-7、本地删除一个文档，在没有提交的情况下恢复命令：
+## 7、本地删除一个文档，在没有提交的情况下恢复命令：
+
 从 git 迁出文件：
 git checkout github 使用.md
 从 git 迁出所有文件：
 git checkout .
 
-8、切换到分支：
+## 8、切换到分支：
+
 git branch main 或者 git checkout main
-9、将远程文档库取回当前所在分支的最新数据：
+
+## 9、将远程文档库取回当前所在分支的最新数据：
+
 git pull
 如果一次性取回全部分支最新的数据：
 git pull --all
 
-========================git 常用命令的解释===============================================
+## 10、查看远程库连接
+
+git remote -v
+
+##### ========================git 常用命令的解释===============================================
 
 解释 git add .
 
