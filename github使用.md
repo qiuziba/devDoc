@@ -1,4 +1,7 @@
-https://github.com/qiuziba/devDoc
+## github.com
+    qiuziba@21cn.com
+    ijnop123
+#### https://github.com/qiuziba/devDoc
 
 ## 1、登录 https://github.com/
 
